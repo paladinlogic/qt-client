@@ -350,7 +350,7 @@ void userPreferences::sSave(bool close)
     _pref->set("InterfaceWindowOption", QString("TopLevel"));
     
   _pref->set("CopyListsPlainText", _plainText->isChecked());
-  _pref->set("XTreeWidgetDataLimit", _richLimit->value());
+  _pref->set("XTreeWidgetDataLimit", QString::number(_richLimit->value()));
   _pref->set("EmailEvents", _emailEvents->isChecked());
 
   _pref->set("AlarmEventDefault", _alarmEvent->isChecked());
