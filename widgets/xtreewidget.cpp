@@ -2549,12 +2549,15 @@ QString XTreeWidget::toHtml() const
   int     colcnt = 0;
   int     rowcnt = 0;
   int     row = 0;
+  double  limit = 0;
   qlonglong maxDataCount = 0;
   qlonglong dataCount = 0;
 
-  if (_x_metrics->boolean("XTreeWidgetDataLimit"))
+  if (_x_preferences)
   {
-    maxDataCount = _x_metrics->value("XTreeWidgetDataLimit").toInt() * 1e9;
+    limit = _x_preferences->value("XTreeWidgetDataLimit").toDouble();
+    if (limit > 0)
+      maxDataCount = (qlonglong)(limit * 1e9);
   }
 
   tableFormat.setHeaderRowCount(1);
