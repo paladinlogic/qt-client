@@ -2631,7 +2631,7 @@ QString XTreeWidget::toHtml() const
     if (maxDataCount > 0 && dataCount > maxDataCount)
     {
       QString overflowMsg = tr("Maximum data limit was encountered.  Only %1 of %2 rows could be processed.");
-      QMessageBox::warning(this, tr("Data Limit Reached"), overflowMsg.arg(row).arg(rowcnt));
+      QMessageBox::warning(NULL, tr("Data Limit Reached"), overflowMsg.arg(row).arg(rowcnt));
     }
   }
   return doc->toHtml();
