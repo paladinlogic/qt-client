@@ -2548,6 +2548,14 @@ QString XTreeWidget::toHtml() const
   QString font;
   int     colcnt = 0;
   int     rowcnt = 0;
+  int     row = 0;
+  qlonglong maxDataCount = 0;
+  qlonglong dataCount = 0;
+
+  if (_x_metrics->boolean("XTreeWidgetDataLimit"))
+  {
+    maxDataCount = _x_metrics->value("XTreeWidgetDataLimit").toInt() * 1e9;
+  }
 
   tableFormat.setHeaderRowCount(1);
 
@@ -2579,13 +2587,15 @@ QString XTreeWidget::toHtml() const
       cell.setFormat(format);
       cursor->insertText(header->text(counter));
       cursor->movePosition(QTextCursor::NextCell);
+
+      dataCount += (qlonglong)(header->text(counter).size());
     }
   }
 
   item = topLevelItem(0);
   if (item)
   {
-    for (QModelIndex idx = indexFromItem(item); idx.isValid(); idx = indexBelow(idx))
+    for (QModelIndex idx = indexFromItem(item); idx.isValid() && (maxDataCount <= 0 || dataCount < maxDataCount); idx = indexBelow(idx), row++)
     {
       item = (XTreeWidgetItem *)itemFromIndex(idx);
       if (item)
@@ -2611,9 +2621,17 @@ QString XTreeWidget::toHtml() const
             cell.setFormat(format);
             cursor->insertText(item->text(counter));
             cursor->movePosition(QTextCursor::NextCell);
+
+            dataCount += (qlonglong)(header->text(counter).size());
           }
         }
       }
+    }
+
+    if (maxDataCount > 0 && dataCount > maxDataCount)
+    {
+      QString overflowMsg = tr("Maximum data limit was encountered.  Only %1 of %2 rows could be processed.");
+      QMessageBox::warning(this, tr("Data Limit Reached"), overflowMsg.arg(row).arg(rowcnt));
     }
   }
   return doc->toHtml();
