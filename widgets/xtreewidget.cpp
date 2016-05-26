@@ -2625,7 +2625,7 @@ QString XTreeWidget::toHtml() const
             cursor->insertText(item->text(counter));
             cursor->movePosition(QTextCursor::NextCell);
 
-            dataCount += (qlonglong)(header->text(counter).size());
+            dataCount += (qlonglong)(item->text(counter).size());
           }
         }
       }
