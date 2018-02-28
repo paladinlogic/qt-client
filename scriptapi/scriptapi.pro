@@ -5,7 +5,13 @@ CONFIG += qt \
     warn_on \
     staticlib
 
-QT += core network printsupport script sql webkit webkitwidgets widgets xml
+QT += core network printsupport script sql widgets xml
+
+if (lessThan (QT_MINOR_VERSION, 6) & isEqual(QT_MAJOR_VERSION, 5)) {
+  QT += webkit webkitwidgets
+} else {
+  QT += webenginewidgets
+}
 
 greaterThan (QT_MAJOR_VERSION, 4) {
   QT += websockets webchannel serialport
@@ -142,23 +148,39 @@ HEADERS += setupscriptapi.h \
     quuidproto.h \
     qvalidatorproto.h \
     qwebchannelproto.h \
-    qwebelementcollectionproto.h \
-    qwebelementproto.h \
-    qwebframeproto.h \
-    qwebpageproto.h \
-    qwebsecurityoriginproto.h \
-    qwebsettingsproto.h \
     qwebsocketcorsauthenticatorproto.h \
     qwebsocketproto.h             \
     qwebsocketprotocolproto.h     \
     qwebsocketserverproto.h       \
-    qwebviewproto.h \
     qwidgetproto.h \
     webchanneltransport.h \
     xsqlqueryproto.h \
     xvariantsetup.h \
     xwebsync.h                    \
     xwebsync_p.h \
+
+if (lessThan (QT_MINOR_VERSION, 6) & isEqual(QT_MAJOR_VERSION, 5)) {
+  # headers that won't compile under 5.10
+  message("ARE YOU GETTING HERE? YOU SHOULDNT!")
+  PROB_HDRS += qwebelementcollectionproto.h \
+              qwebelementproto.h \
+              qwebframeproto.h \
+              qwebpageproto.h \
+              qwebsecurityoriginproto.h \
+              qwebsettingsproto.h \
+              qwebviewproto.h \
+
+
+  # source files that won't compile under 5.10
+  PROB_SRCS += qwebelementcollectionproto.cpp \
+              qwebelementproto.cpp \
+              qwebframeproto.cpp \
+              qwebpageproto.cpp \
+              qwebsecurityoriginproto.cpp \
+              qwebsettingsproto.cpp \
+              qwebviewproto.cpp \
+}
+
 
 SOURCES += setupscriptapi.cpp \
     include.cpp \
@@ -278,17 +300,10 @@ SOURCES += setupscriptapi.cpp \
     quuidproto.cpp \
     qvalidatorproto.cpp \
     qwebchannelproto.cpp \
-    qwebelementcollectionproto.cpp \
-    qwebelementproto.cpp \
-    qwebframeproto.cpp \
-    qwebpageproto.cpp \
-    qwebsecurityoriginproto.cpp \
-    qwebsettingsproto.cpp \
     qwebsocketcorsauthenticatorproto.cpp \
     qwebsocketproto.cpp           \
     qwebsocketprotocolproto.cpp   \
     qwebsocketserverproto.cpp     \
-    qwebviewproto.cpp \
     qwidgetproto.cpp \
     webchanneltransport.cpp \
     xsqlqueryproto.cpp \

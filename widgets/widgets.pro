@@ -3,8 +3,14 @@ include( ../global.pri )
 TARGET   = xtuplewidgets
 TEMPLATE = lib
 CONFIG  += qt warn_on plugin
-QT      += core network printsupport script scripttools sql \
-           webkit webkitwidgets widgets xml
+QT      += core network printsupport script scripttools sql
+QT      += widgets xml
+
+if (lessThan (QT_MINOR_VERSION, 6) & isEqual(QT_MAJOR_VERSION, 5)) {
+  QT += webkit webkitwidgets
+} else {
+  QT += webenginewidgets
+}
 
 greaterThan(QT_MAJOR_VERSION, 4) {
   QT += designer printsupport serialport uitools \
@@ -20,7 +26,7 @@ DEPENDPATH  += $${INCLUDEPATH} ../lib
 LIBS        += -lxtuplescriptapi -lxtuplecommon -lwrtembed \
                -lrenderer -ldmtx -lqzint -lMetaSQL -lopenrptcommon
 
-dynamic { 
+dynamic {
     CONFIG      += dll # plugin implies dll but this fixes a cross-compile problem
     DESTDIR      = $$[QT_INSTALL_PLUGINS]/designer
     MOC_DIR      = tmp/dll

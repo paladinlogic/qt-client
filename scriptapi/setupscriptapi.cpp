@@ -10,6 +10,8 @@
 
 #include "setupscriptapi.h"
 
+#include <QtGlobal>
+
 #include "applock.h"
 #include "xtsettings.h"
 #include "char.h"
@@ -131,22 +133,32 @@
 #include "quuidproto.h"
 #include "qvalidatorproto.h"
 #include "qwebchannelproto.h"
-#include "qwebelementcollectionproto.h"
-#include "qwebelementproto.h"
-#include "qwebframeproto.h"
-#include "qwebpageproto.h"
-#include "qwebsecurityoriginproto.h"
-#include "qwebsettingsproto.h"
+//#include "qwebelementcollectionproto.h"
+//#include "qwebelementproto.h"
+//#include "qwebframeproto.h"
+//#include "qwebpageproto.h"
+//#include "qwebsecurityoriginproto.h"
+//#include "qwebsettingsproto.h"
 #include "qwebsocketcorsauthenticatorproto.h"
 #include "qwebsocketproto.h"
 #include "qwebsocketprotocolproto.h"
 #include "qwebsocketserverproto.h"
-#include "qwebviewproto.h"
+//#include "qwebviewproto.h"
 #include "qwidgetproto.h"
 #include "webchanneltransport.h"
 #include "xsqlqueryproto.h"
 #include "xvariantsetup.h"
 #include "xwebsync.h"
+
+#if QT_VERSION <= 0x050600
+  #include "qwebelementcollectionproto.h"
+  #include "qwebelementproto.h"
+  #include "qwebframeproto.h"
+  #include "qwebpageproto.h"
+  #include "qwebsecurityoriginproto.h"
+  #include "qwebsettingsproto.h"
+  #include "qwebviewproto.h"
+#endif
 
 /*! \defgroup scriptapi The xTuple ERP Scripting API
 
@@ -276,17 +288,17 @@ void setupScriptApi(QScriptEngine *engine)
   setupQUuidProto(engine);
   setupQValidatorProto(engine);
   setupQWebChannelProto(engine);
-  setupQWebElementCollectionProto(engine);
-  setupQWebElementProto(engine);
-  setupQWebFrameProto(engine);
-  setupQWebPageProto(engine);
-  setupQWebSecurityOriginProto(engine);
-  setupQWebSettingsProto(engine);
+  //setupQWebElementCollectionProto(engine);
+  //setupQWebElementProto(engine);
+  //setupQWebFrameProto(engine);
+  //setupQWebPageProto(engine);
+  //setupQWebSecurityOriginProto(engine);
+  //setupQWebSettingsProto(engine);
   setupQWebSocketCorsAuthenticatorProto(engine);
   setupQWebSocketProto(engine);
   setupQWebSocketProtocolProto(engine);
   setupQWebSocketServerProto(engine);
-  setupQWebViewProto(engine);
+  //setupQWebViewProto(engine);
   setupQWidgetProto(engine);
   setupQt(engine);
   setupWebChannelTransport(engine);
@@ -294,6 +306,16 @@ void setupScriptApi(QScriptEngine *engine)
   setupXVariant(engine);
   setupXWebSync(engine);
   setupchar(engine);
+
+  #if QT_VERSION <= 0x050600
+    setupQWebElementProto(engine);
+    setupQWebElementCollectionProto(engine);
+    setupQWebFrameProto(engine);
+    setupQWebPageProto(engine);
+    setupQWebSecurityOriginProto(engine);
+    setupQWebSettingsProto(engine);
+    setupQWebViewProto(engine);
+  #endif
 
   setupFormat(engine);
 }

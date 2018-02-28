@@ -10,6 +10,8 @@
 
 #include "scripttoolbox.h"
 
+#include <QtGlobal>
+
 #include <QBoxLayout>
 #include <QDateTime>
 #include <QDesktopServices>
@@ -30,7 +32,10 @@
 #include <QTextStream>
 #include <QUrl>
 #include <QWidget>
-#include <QWebView>
+
+#if QT_VERSION <= 0x050600
+  #include <QWebView>
+#endif
 
 #include <parameter.h>
 #include <metasql.h>
@@ -1408,10 +1413,12 @@ void ScriptToolbox::populateXTreeWidget(QWidget * tree, XSqlQuery pSql, bool pUs
 /** @brief Load the given QWebView with the given URL. */
 void ScriptToolbox::loadQWebView(QWidget * webView, const QString & url)
 {
+#if QT_VERSION <= 0x050600
   QUrl p = QUrl(url);
   QWebView *wv = qobject_cast<QWebView*>(webView);
   if(wv)
     wv->load(p);
+#endif
 }
 
 /** @brief Save a credit card definition from a script.
