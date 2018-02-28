@@ -1,7 +1,7 @@
 /*
  * This file is part of the xTuple ERP: PostBooks Edition, a free and
  * open source Enterprise Resource Planning software suite,
- * Copyright (c) 1999-2014 by OpenMFG LLC, d/b/a xTuple.
+ * Copyright (c) 1999-2017 by OpenMFG LLC, d/b/a xTuple.
  * It is licensed to you under the Common Public Attribution License
  * version 1.0, the full text of which (including xTuple-specific Exhibits)
  * is available at www.xtuple.com/CPAL.  By using this software, you agree
@@ -56,6 +56,7 @@ crmaccounts::crmaccounts(QWidget* parent, const char*, Qt::WindowFlags fl)
     parameterWidget()->append(tr("Owner"), "owner_username", ParameterWidget::User);
     parameterWidget()->append(tr("Owner Pattern"), "owner_usr_pattern", ParameterWidget::Text);
   }
+  parameterWidget()->appendComboBox(tr("Account Groups"), "crmacctgrp", XComboBox::AccountGroups);
   parameterWidget()->append(tr("Show Inactive"), "showInactive", ParameterWidget::Exists);
   parameterWidget()->append(tr("Account Number Pattern"), "crmacct_number_pattern", ParameterWidget::Text);
   parameterWidget()->append(tr("Account Name Pattern"), "crmacct_name_pattern", ParameterWidget::Text);
@@ -86,7 +87,7 @@ crmaccounts::crmaccounts(QWidget* parent, const char*, Qt::WindowFlags fl)
   list()->addColumn(tr("Owner"), _userColumn, Qt::AlignLeft,   false, "crmacct_owner_username");
   list()->addColumn(tr("First"),          50, Qt::AlignLeft  ,  true, "cntct_first_name" );
   list()->addColumn(tr("Last"),           -1, Qt::AlignLeft  ,  true, "cntct_last_name" );
-  list()->addColumn(tr("Phone"),         100, Qt::AlignLeft  ,  true, "cntct_phone" );
+  list()->addColumn(tr("Phone"),         100, Qt::AlignLeft  ,  true, "contact_phone" );
   list()->addColumn(tr("Email"),         100, Qt::AlignLeft  ,  true, "cntct_email" );
   list()->addColumn(tr("Address"),        -1, Qt::AlignLeft  , false, "addr_line1" );
   list()->addColumn(tr("City"),           75, Qt::AlignLeft  , false, "addr_city" );

@@ -110,6 +110,7 @@ FORMS =   absoluteCalendarItem.ui               \
           addPoComment.ui                       \
           address.ui                            \
           addresses.ui                          \
+          addressMerge.ui                       \
           adjustmentTrans.ui                    \
           adjustInvValue.ui                     \
           allocateARCreditMemo.ui               \
@@ -140,6 +141,7 @@ FORMS =   absoluteCalendarItem.ui               \
           bankAdjustmentEditList.ui             \
           bankAdjustmentType.ui                 \
           bankAdjustmentTypes.ui                \
+          buildCRMGroups.ui                     \
           bom.ui                                \
           bomItem.ui                            \
           bomList.ui                            \
@@ -224,8 +226,11 @@ FORMS =   absoluteCalendarItem.ui               \
           crmaccountMergePickAccountsPage.ui    \
           crmaccountMergePickDataPage.ui        \
           crmaccountMergePickTaskPage.ui        \
-          crmaccountMergePurgePage.ui           \
           crmaccountMergeResultPage.ui          \
+          crmGroup.ui                          \
+          crmGroups.ui                          \
+          crmRole.ui                            \
+          crmRoles.ui                           \
           currencies.ui                         \
           currency.ui                           \
           currencyConversion.ui                 \
@@ -237,8 +242,6 @@ FORMS =   absoluteCalendarItem.ui               \
           customer.ui                           \
           customerFormAssignment.ui             \
           customerFormAssignments.ui            \
-          customerGroup.ui                      \
-          customerGroups.ui                     \
           customerType.ui                       \
           customerTypeList.ui                   \
           customerTypes.ui                      \
@@ -268,9 +271,9 @@ FORMS =   absoluteCalendarItem.ui               \
           dspTaxHistory.ui              \
           dspTaxReturn.ui               \
           duplicateAccountNumbers.ui    \
+          dynamicfilters.ui             \
+          dynamicfilter.ui              \
           editOwners.ui                 \
-          empGroup.ui                   \
-          empGroups.ui                  \
           employee.ui                   \
           enterMiscCount.ui             \
           enterPoReceipt.ui             \
@@ -674,6 +677,7 @@ HEADERS = ../common/format.h                    \
           addPoComment.h                        \
           address.h                             \
           addresses.h                           \
+          addressMerge.h                        \
           adjustmentTrans.h                     \
           adjustInvValue.h                      \
           allocateARCreditMemo.h                \
@@ -709,6 +713,7 @@ HEADERS = ../common/format.h                    \
           bomItem.h                     \
           bomList.h                     \
           budgets.h                     \
+          buildCRMGroups.h              \
           buyCard.h                     \
           calendar.h                    \
           calendars.h                   \
@@ -792,9 +797,12 @@ HEADERS = ../common/format.h                    \
           crmaccountMergePickAccountsPage.h     \
           crmaccountMergePickDataPage.h         \
           crmaccountMergePickTaskPage.h         \
-          crmaccountMergePurgePage.h            \
           crmaccountMergeResultPage.h           \
           crmaccounts.h                         \
+          crmGroup.h                            \
+          crmGroups.h                           \
+          crmRole.h                             \
+          crmRoles.h                            \
           currencies.h                          \
           currenciesDialog.h                    \
           currency.h                            \
@@ -808,8 +816,6 @@ HEADERS = ../common/format.h                    \
           customer.h                            \
           customerFormAssignment.h              \
           customerFormAssignments.h             \
-          customerGroup.h                       \
-          customerGroups.h                      \
           customerType.h                        \
           customerTypeList.h                    \
           customerTypes.h                       \
@@ -843,9 +849,9 @@ HEADERS = ../common/format.h                    \
           dspTaxHistory.h                       \
           dspTaxReturn.h                        \
           duplicateAccountNumbers.h             \
+          dynamicfilters.h                      \
+          dynamicfilter.h                       \
           editOwners.h                          \
-          empGroup.h                            \
-          empGroups.h                           \
           employee.h                            \
           employees.h                           \
           enterMiscCount.h                      \
@@ -1296,6 +1302,7 @@ SOURCES = absoluteCalendarItem.cpp              \
           addPoComment.cpp                      \
           address.cpp                           \
           addresses.cpp                         \
+          addressMerge.cpp                      \
           adjustmentTrans.cpp                   \
           adjustInvValue.cpp                    \
           allocateARCreditMemo.cpp              \
@@ -1331,6 +1338,7 @@ SOURCES = absoluteCalendarItem.cpp              \
           bomItem.cpp                           \
           bomList.cpp                           \
           budgets.cpp                           \
+          buildCRMGroups.cpp                    \
           buyCard.cpp                           \
           calendar.cpp                          \
           calendars.cpp                         \
@@ -1414,9 +1422,12 @@ SOURCES = absoluteCalendarItem.cpp              \
           crmaccountMergePickAccountsPage.cpp   \
           crmaccountMergePickDataPage.cpp       \
           crmaccountMergePickTaskPage.cpp       \
-          crmaccountMergePurgePage.cpp          \
           crmaccountMergeResultPage.cpp         \
           crmaccounts.cpp                       \
+          crmGroup.cpp                          \
+          crmGroups.cpp                         \
+          crmRole.cpp                           \
+          crmRoles.cpp                          \
           currencies.cpp                        \
           currenciesDialog.cpp                  \
           currency.cpp                          \
@@ -1430,8 +1441,6 @@ SOURCES = absoluteCalendarItem.cpp              \
           customer.cpp                          \
           customerFormAssignment.cpp            \
           customerFormAssignments.cpp           \
-          customerGroup.cpp                     \
-          customerGroups.cpp                    \
           customerType.cpp                      \
           customerTypeList.cpp                  \
           customerTypes.cpp                     \
@@ -1464,9 +1473,9 @@ SOURCES = absoluteCalendarItem.cpp              \
           dspTaxHistory.cpp                     \
           dspTaxReturn.cpp                      \
           duplicateAccountNumbers.cpp           \
+          dynamicfilters.cpp                    \
+          dynamicfilter.cpp                     \
           editOwners.cpp                        \
-          empGroup.cpp                          \
-          empGroups.cpp                         \
           employee.cpp                          \
           employees.cpp                         \
           enterMiscCount.cpp                    \

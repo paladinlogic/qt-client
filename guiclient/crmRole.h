@@ -1,47 +1,45 @@
 /*
  * This file is part of the xTuple ERP: PostBooks Edition, a free and
  * open source Enterprise Resource Planning software suite,
- * Copyright (c) 1999-2014 by OpenMFG LLC, d/b/a xTuple.
+ * Copyright (c) 1999-2018 by OpenMFG LLC, d/b/a xTuple.
  * It is licensed to you under the Common Public Attribution License
  * version 1.0, the full text of which (including xTuple-specific Exhibits)
  * is available at www.xtuple.com/CPAL.  By using this software, you agree
  * to be bound by its terms.
  */
 
-#ifndef CUSTOMERGROUP_H
-#define CUSTOMERGROUP_H
+#ifndef CRMROLE_H
+#define CRMROLE_H
 
 #include "guiclient.h"
 #include "xdialog.h"
 #include <parameter.h>
+#include "ui_crmRole.h"
 
-#include "ui_customerGroup.h"
-
-class customerGroup : public XDialog, public Ui::customerGroup
+class crmRole : public XDialog, public Ui::crmRole
 {
     Q_OBJECT
 
 public:
-    customerGroup(QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WindowFlags fl = 0);
-    ~customerGroup();
+    crmRole(QWidget* parent = 0, const char* name = 0, bool modal = true, Qt::WindowFlags fl = 0);
+    ~crmRole();
 
 public slots:
-    virtual enum SetResponse set(const ParameterList & pParams );
-    virtual void sCheck();
-    virtual void sClose();
-    virtual void sSave();
-    virtual void sDelete();
-    virtual void sNew();
-    virtual void sFillList();
+    virtual enum SetResponse set( const ParameterList & pParams );
     virtual void populate();
 
 protected slots:
     virtual void languageChange();
+    virtual void sSave();
+
+signals:
+    virtual void saveBeforeBegin();
+    virtual void saveAfterCommit();
 
 private:
     int _mode;
-    int _custgrpid;
+    int _crmroleid;
 
 };
 
-#endif // CUSTOMERGROUP_H
+#endif // CRMROLE_H
