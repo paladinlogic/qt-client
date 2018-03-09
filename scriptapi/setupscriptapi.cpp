@@ -11,8 +11,10 @@
 #include "setupscriptapi.h"
 
 #include <QtGlobal>
+#include <QDebug>
 
 #include "applock.h"
+#include "metrics.h"
 #include "xtsettings.h"
 #include "char.h"
 #include "engineevaluate.h"
@@ -63,6 +65,7 @@
 #include "qdomprocessinginstructionproto.h"
 #include "qdomtextproto.h"
 #include "qdoublevalidatorproto.h"
+#include "qeventloopproto.h"
 #include "qeventproto.h"
 #include "qfileinfoproto.h"
 #include "qfileproto.h"
@@ -133,22 +136,26 @@
 #include "quuidproto.h"
 #include "qvalidatorproto.h"
 #include "qwebchannelproto.h"
-//#include "qwebelementcollectionproto.h"
-//#include "qwebelementproto.h"
-//#include "qwebframeproto.h"
-//#include "qwebpageproto.h"
-//#include "qwebsecurityoriginproto.h"
-//#include "qwebsettingsproto.h"
 #include "qwebsocketcorsauthenticatorproto.h"
 #include "qwebsocketproto.h"
 #include "qwebsocketprotocolproto.h"
 #include "qwebsocketserverproto.h"
-//#include "qwebviewproto.h"
 #include "qwidgetproto.h"
 #include "webchanneltransport.h"
 #include "xsqlqueryproto.h"
 #include "xvariantsetup.h"
 #include "xwebsync.h"
+
+#if QT_VERSION < 0x050900
+  #include "qwebelementcollectionproto.h"
+  #include "qwebelementproto.h"
+  #include "qwebframeproto.h"
+  #include "qwebpageproto.h"
+  #include "qwebsecurityoriginproto.h"
+  #include "qwebsettingsproto.h"
+  #include "qwebviewproto.h"
+#endif
+
 
 #if QT_VERSION <= 0x050600
   #include "qwebelementcollectionproto.h"
@@ -160,6 +167,13 @@
   #include "qwebviewproto.h"
 #endif
 
+#if QT_VERSION > 0x050900
+  #include "qwebenginepageproto.h"
+  #include "qwebengineviewproto.h"
+#endif
+
+static Preferences *prefs = 0;
+
 /*! \defgroup scriptapi The xTuple ERP Scripting API
 
   The xTuple ERP Scripting API defines the interface between extension %scripts
@@ -167,8 +181,12 @@
 
  */
 
-void setupScriptApi(QScriptEngine *engine)
+void setupScriptApi(QScriptEngine *engine, Preferences *pPreferences)
 {
+  engine->installTranslatorFunctions();
+
+  if (pPreferences && ! prefs)
+    prefs = pPreferences;
 
   setupAppLockProto(engine);
   setupXtSettings(engine);
@@ -219,6 +237,7 @@ void setupScriptApi(QScriptEngine *engine)
   setupQDomProcessingInstructionProto(engine);
   setupQDomTextProto(engine);
   setupQDoubleValidatorProto(engine);
+  setupQEventLoopProto(engine);
   setupQEventProto(engine);
   setupQFileInfoProto(engine);
   setupQFileProto(engine);
@@ -288,17 +307,10 @@ void setupScriptApi(QScriptEngine *engine)
   setupQUuidProto(engine);
   setupQValidatorProto(engine);
   setupQWebChannelProto(engine);
-  //setupQWebElementCollectionProto(engine);
-  //setupQWebElementProto(engine);
-  //setupQWebFrameProto(engine);
-  //setupQWebPageProto(engine);
-  //setupQWebSecurityOriginProto(engine);
-  //setupQWebSettingsProto(engine);
   setupQWebSocketCorsAuthenticatorProto(engine);
   setupQWebSocketProto(engine);
   setupQWebSocketProtocolProto(engine);
   setupQWebSocketServerProto(engine);
-  //setupQWebViewProto(engine);
   setupQWidgetProto(engine);
   setupQt(engine);
   setupWebChannelTransport(engine);
@@ -306,6 +318,17 @@ void setupScriptApi(QScriptEngine *engine)
   setupXVariant(engine);
   setupXWebSync(engine);
   setupchar(engine);
+  setupFormat(engine);
+
+  #if QT_VERSION < 0x050900
+    setupQWebElementCollectionProto(engine);
+    setupQWebElementProto(engine);
+    setupQWebFrameProto(engine);
+    setupQWebPageProto(engine);
+    setupQWebSecurityOriginProto(engine);
+    setupQWebSettingsProto(engine);
+    setupQWebViewProto(engine);
+  #endif
 
   #if QT_VERSION <= 0x050600
     setupQWebElementProto(engine);
@@ -317,5 +340,25 @@ void setupScriptApi(QScriptEngine *engine)
     setupQWebViewProto(engine);
   #endif
 
-  setupFormat(engine);
+  #if QT_VERSION > 0x050900
+    setQWebEnginePageProto(engine);
+    setQWebEngineViewProto(engine);
+  #endif
+}
+
+void scriptDeprecated(QString msg)
+{
+  if (! prefs)
+    return;
+
+  if (prefs->value("DeprecationLevel") == "debug")
+    qDebug() << msg;
+  else if (prefs->value("DeprecationLevel") == "info")
+    qInfo() << msg;
+  else if (prefs->value("DeprecationLevel") == "warning")
+    qWarning() << msg;
+  else if (prefs->value("DeprecationLevel") == "critical")
+    qCritical() << msg;
+  else if (prefs->value("DeprecationLevel") == "fatal")
+    qFatal("%s\n", msg.toUtf8().data());
 }

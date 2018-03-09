@@ -6,16 +6,19 @@ CONFIG   += qt warn_on
 QT += xml sql script scripttools network
 QT += xmlpatterns printsupport
 
-if (lessThan (QT_MINOR_VERSION, 6) & isEqual(QT_MAJOR_VERSION, 5)) {
+lessThan(QT_MINOR_VERSION, 6) : equals(QT_MAJOR_VERSION, 5) {
   QT += webkit webkitwidgets
 } else {
   QT += webenginewidgets
 }
 
-isEqual(QT_MAJOR_VERSION, 5) {
-  QT     += designer uitools quick websockets webchannel serialport
-} else {
-  CONFIG += designer uitools
+QT += designer uitools quick websockets webchannel serialport
+QT += xmlpatterns printsupport
+
+equals(QT_MAJOR_VERSION, 5) {
+  lessThan (QT_MINOR_VERSION, 9) {
+    QT += webkit webkitwidgets
+  }
 }
 
 TEMPLATE = app
