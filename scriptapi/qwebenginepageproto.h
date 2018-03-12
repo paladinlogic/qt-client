@@ -75,7 +75,7 @@ class QWebEnginePageProto : public QObject, public QScriptable
   Q_PROPERTY (double zoomFactor       READ zoomFactor         WRITE setZoomFactor)
 
   public:
-    QWebEnginePageProto(QObject *parent);
+    QWebEnginePageProto(QObject *parent = 0);
     QWebEnginePageProto(QWebEngineProfile *profile, QObject *parent);
     ~QWebEnginePageProto();
 
@@ -106,7 +106,7 @@ class QWebEnginePageProto : public QObject, public QScriptable
     Q_INVOKABLE void runJavaScript(const QString & scriptSource, std::function<void(QVariant)> resultCallback);
     Q_INVOKABLE void runJavaScript(const QString & scriptSource);
     Q_INVOKABLE void save(const QString & filePath, QWebEngineDownloadItem::SavePageFormat format = QWebEngineDownloadItem::MimeHtmlSaveFormat) const;
-    Q_INVOKABLE QWebEngineScriptCollection & scripts();
+    Q_INVOKABLE QWebEngineScriptCollection& scripts();
     Q_INVOKABLE QPointF scrollPosition() const;
     Q_INVOKABLE QString selectedText() const;
     Q_INVOKABLE void setAudioMuted(bool muted);

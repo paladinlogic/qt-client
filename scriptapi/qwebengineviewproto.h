@@ -21,10 +21,8 @@
 #include <QWidget>
 #include <QWebEnginePage>
 #include <QWebEngineHistory>
-#include <QIcon>
 #include <QByteArray>
 #include <QWebEngineSettings>
-#include <QIcon>
 
 Q_DECLARE_METATYPE(QWebEngineView*)
 
@@ -36,15 +34,15 @@ class QWebEngineViewProto : public QObject, public QScriptable
   Q_OBJECT
 
   Q_PROPERTY (const bool hasSelection       READ hasSelection)
-  Q_PROPERTY (const QICON icon              READ icon)
+  Q_PROPERTY (const QIcon icon              READ icon)
   Q_PROPERTY (const QUrl iconUrl            READ iconUrl)
   Q_PROPERTY (const QString selectedText    READ selectedText)
   Q_PROPERTY (const QString title           READ title)
-  Q_PROPERTY (QUrl url                      READ url            WRITE setURL)
+  Q_PROPERTY (QUrl url                      READ url            WRITE setUrl)
   Q_PROPERTY (double zoomFactor             READ zoomFactor     WRITE setZoomFactor)
 
   public:
-    QWebEngineViewProto(QWidget *parent);
+    QWebEngineViewProto(QObject *parent = 0);
     ~QWebEngineViewProto();
 
     Q_INVOKABLE void findText(const QString & subString, QWebEnginePage::FindFlags options = QWebEnginePage::FindFlags());

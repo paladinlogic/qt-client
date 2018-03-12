@@ -41,6 +41,15 @@ QScriptValue constructQWebEnginePage(QScriptContext * context, QScriptEngine  *e
   return engine->toScriptValue(obj);
 }
 
+QWebEnginePageProto::QWebEnginePageProto(QObject * parent)
+    : QObject(parent)
+{
+}
+
+QWebEnginePageProto::~QWebEnginePageProto()
+{
+}
+
 QAction* QWebEnginePageProto::action(QWebEnginePage::WebAction action) const
 {
   QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
@@ -65,13 +74,15 @@ QSizeF QWebEnginePageProto::contentsSize() const
   return QSizeF();
 }
 
-// const QWebEnginePageProto::() const
-// {
-//   QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
-//   if (item)
-//     return item->();
-//   return const();
-// }
+const QWebEngineContextMenuData& QWebEnginePageProto::contextMenuData() const
+{
+  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
+  if (item)
+    return item->contextMenuData();
+
+  QWebEngineContextMenuData results = QWebEngineContextMenuData();
+  return results;
+}
 
 QMenu* QWebEnginePageProto::createStandardContextMenu()
 {
@@ -241,6 +252,15 @@ void QWebEnginePageProto::save(const QString & filePath, QWebEngineDownloadItem:
   QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
   if (item)
     item->save(filePath, format);
+}
+
+QWebEngineScriptCollection& QWebEnginePageProto::scripts()
+{
+  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
+  if (item)
+    return item->scripts();
+  else
+    throw std::runtime_error("Throw some helpful error");
 }
 
 QPointF QWebEnginePageProto::scrollPosition() const

@@ -42,6 +42,14 @@ QScriptValue constructQWebEngineView(QScriptContext * context, QScriptEngine  *e
   return engine->toScriptValue(obj);
 }
 
+QWebEngineViewProto::QWebEngineViewProto(QObject *parent)
+    : QObject(parent)
+{
+}
+
+QWebEngineViewProto::~QWebEngineViewProto()
+{}
+
 void QWebEngineViewProto::findText(const QString & subString, QWebEnginePage::FindFlags options)
 {
   QWebEngineView *item = qscriptvalue_cast<QWebEngineView*>(thisObject());
@@ -169,6 +177,14 @@ QWebEngineSettings* QWebEngineViewProto::settings() const
   return 0;
 }
 
+QSize QWebEngineViewProto::sizeHint() const
+{
+  QWebEngineView *item = qscriptvalue_cast<QWebEngineView*>(thisObject());
+  if (item)
+    return item->sizeHint();
+  return QSize();
+}
+
 QString QWebEngineViewProto::title() const
 {
   QWebEngineView *item = qscriptvalue_cast<QWebEngineView*>(thisObject());
@@ -198,4 +214,32 @@ double QWebEngineViewProto::zoomFactor() const
   if (item)
     return item->zoomFactor();
   return double();
+}
+
+void QWebEngineViewProto::back()
+{
+  QWebEngineView *item = qscriptvalue_cast<QWebEngineView*>(thisObject());
+  if (item)
+    return item->back();
+}
+
+void QWebEngineViewProto::forward()
+{
+  QWebEngineView *item = qscriptvalue_cast<QWebEngineView*>(thisObject());
+  if (item)
+    return item->forward();
+}
+
+void QWebEngineViewProto::reload()
+{
+  QWebEngineView *item = qscriptvalue_cast<QWebEngineView*>(thisObject());
+  if (item)
+    return item->reload();
+}
+
+void QWebEngineViewProto::stop()
+{
+  QWebEngineView *item = qscriptvalue_cast<QWebEngineView*>(thisObject());
+  if (item)
+    return item->stop();
 }

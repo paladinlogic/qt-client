@@ -7,10 +7,10 @@ CONFIG   += qt warn_on
 QT += core printsupport script serialport sql webchannel websockets \
       widgets xml xmlpatterns
 
-equals(QT_MAJOR_VERSION, 5) {
-  lessThan (QT_MINOR_VERSION, 9) {
-    QT += webkit webkitwidgets
-  }
+lessThan (QT_MINOR_VERSION, 6) : isEqual(QT_MAJOR_VERSION, 5) {
+  QT += webkit webkitwidgets
+} else {
+  QT += webengine webenginewidgets
 }
 
 INCLUDEPATH += ../scriptapi \

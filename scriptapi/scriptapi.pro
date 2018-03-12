@@ -8,7 +8,7 @@ QT += core network printsupport script sql widgets xml
 lessThan (QT_MINOR_VERSION, 6) : isEqual(QT_MAJOR_VERSION, 5) {
   QT += webkit webkitwidgets
 } else {
-  QT += webenginewidgets
+  QT += webengine webenginewidgets
 }
 
 QT += core network printsupport script sql widgets xml serialport

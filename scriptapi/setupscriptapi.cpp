@@ -341,8 +341,8 @@ void setupScriptApi(QScriptEngine *engine, Preferences *pPreferences)
   #endif
 
   #if QT_VERSION > 0x050900
-    setQWebEnginePageProto(engine);
-    setQWebEngineViewProto(engine);
+    setupQWebEnginePageProto(engine);
+    setupQWebEngineViewProto(engine);
   #endif
 }
 
