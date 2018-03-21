@@ -27,8 +27,11 @@ class ScriptApiTestResults : public QMainWindow, Ui::ScriptApiTestResults
   signals:
 
   public slots:
+    virtual void sRunTests();
+  private slots:
 
-  private:
+
+private:
     ScriptApiTestResultsPrivate *_data;
 };
 
