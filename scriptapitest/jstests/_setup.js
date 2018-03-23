@@ -1,10 +1,6 @@
 /**
 * Assertion Functions
 */
-function assert(expr) {
-  if (! expr) throw new Error('falsey expression');
-}
-
 function assertIsFunction(f, name) {
   // this may not be the best because if f returns false then this is returned
   // even if it's a valid function
@@ -48,5 +44,11 @@ function assertIsNotConstructor(f, name) {
 function assertHasProperty(obj, name, prop) {
     if (!obj.hasOwnProperty(prop)) {
         throw new Error(prop + ' is not a property of ' + name);
+    }
+}
+
+function assert(condition, message) {
+    if (!condition) {
+        throw Error('Assert failed' + (typeof message !== 'undefined' ? ': ' + message : ''));
     }
 }

@@ -42,10 +42,10 @@
 #include <QVariant>
 
 Q_DECLARE_METATYPE(QWebEnginePage*)
-
 Q_DECLARE_METATYPE(enum QWebEnginePage::Feature)
 Q_DECLARE_METATYPE(enum QWebEnginePage::FileSelectionMode)
 Q_DECLARE_METATYPE(enum QWebEnginePage::FindFlag)
+Q_DECLARE_METATYPE(QWebEnginePage::FindFlags)
 Q_DECLARE_METATYPE(enum QWebEnginePage::JavaScriptConsoleMessageLevel)
 Q_DECLARE_METATYPE(enum QWebEnginePage::NavigationType)
 Q_DECLARE_METATYPE(enum QWebEnginePage::PermissionPolicy)
