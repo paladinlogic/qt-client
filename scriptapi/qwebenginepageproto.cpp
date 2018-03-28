@@ -115,9 +115,53 @@ void WebWindowTypeFromScriptValue(const QScriptValue &obj, enum QWebEnginePage::
 
 QScriptValue runJavaScriptForJs(QScriptContext* context, QScriptEngine* engine)
 {
-    if (context->argumentCount() == 3) {
+    QScriptValue result = engine->undefinedValue();
+    QWebEnginePage qwep;
 
+    if (context->argumentCount() == 1) {
+        if (context->argument(0).isString())
+            qwep.runJavaScript(context->argument(0).toString());
+        else
+           qFatal("No matching runJavaScript function");
     }
+
+    if (context->argumentCount() == 2) {
+        if (context->argument(0).isString() && context->argument(1).isNumber()) {
+            qwep.runJavaScript(context->argument(0).toString(), context->argument(1).toInt32());
+        } else if (context->argument(0).isString() && context->argument(1).isFunction()) {
+            qwep.runJavaScript(context->argument(0).toString());
+            qWarning() << "Lambdas and Callbacks are not currently supported";
+        } else {
+            qFatal("No matching runJavaScript function");
+        }
+    }
+
+    if (context->argumentCount() == 3) {
+        if (context->argument(0).isString() && context->argument(1).isNumber() && context->argument(2).isFunction()) {
+            qwep.runJavaScript(context->argument(0).toString(), context->argument(1).toInt32());
+            qWarning() << "Lambdas and Callbacks are not currently supported";
+        } else {
+            qFatal("No matching runJavaScript function");
+        }
+    }
+
+    if (context->argumentCount() > 3) {
+        qFatal("No matching runJavaScript function");
+    }
+
+    return result;
+}
+
+QScriptValue printToPdfForJs(QScriptContext* context, QScriptEngine* engine)
+{
+   qFatal("Function printToPdf not yet supported");
+   return engine->undefinedValue();
+}
+
+QScriptValue loadForJs(QScriptContext* context, QScriptEngine* engine)
+{
+    qFatal("Function load not yet supported");
+    return engine->undefinedValue();
 }
 
 void setupQWebEnginePageProto(QScriptEngine *engine)
@@ -227,6 +271,12 @@ void setupQWebEnginePageProto(QScriptEngine *engine)
 
   QScriptValue runJavaScript = engine->newFunction(runJavaScriptForJs);
   constructor.setProperty("runJavaScript", runJavaScript);
+
+  QScriptValue printToPdf = engine->newFunction(printToPdfForJs);
+  constructor.setProperty("printToPdf", printToPdf);
+
+  QScriptValue load = engine->newFunction(loadForJs);
+  constructor.setProperty("load", load);
 }
 
 QScriptValue constructQWebEnginePage(QScriptContext * context, QScriptEngine  *engine)
@@ -351,39 +401,11 @@ bool QWebEnginePageProto::isAudioMuted() const
   return false;
 }
 
-void QWebEnginePageProto::load(const QUrl & url) const
-{
-  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
-  if (item)
-    item->load(url);
-}
-
-void QWebEnginePageProto::load(const QWebEngineHttpRequest & request)
-{
-  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
-  if (item)
-    item->load(request);
-}
-
 void QWebEnginePageProto::print(QPrinter *printer, std::function<void(bool)> resultCallback)
 {
   QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
   if (item)
     item->print(printer, resultCallback);
-}
-
-void QWebEnginePageProto::printToPdf(const QString & filePath, const QPageLayout & pageLayout)
-{
-  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
-  if (item)
-    item->printToPdf(filePath, pageLayout);
-}
-
-void QWebEnginePageProto::printToPdf(std::function<void(QByteArray)> resultCallback, const QPageLayout & pageLayout)
-{
-  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
-  if (item)
-    item->printToPdf(resultCallback, pageLayout);
 }
 
 QWebEngineProfile* QWebEnginePageProto::profile() const
@@ -417,34 +439,6 @@ QUrl QWebEnginePageProto::requestedUrl() const
   return QUrl();
 }
 
-void QWebEnginePageProto::runJavaScript(const QString & scriptSource, quint32 worldId, std::function<void(QVariant)> resultCallback)
-{
-  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
-  if (item)
-    item->runJavaScript(scriptSource, worldId, resultCallback);
-}
-
-void QWebEnginePageProto::runJavaScript(const QString & scriptSource, quint32 worldId)
-{
-  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
-  if (item)
-    item->runJavaScript(scriptSource, worldId);
-}
-
-void QWebEnginePageProto::runJavaScript(const QString & scriptSource, std::function<void(QVariant)> resultCallback)
-{
-  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
-  if (item)
-    item->runJavaScript(scriptSource, resultCallback);
-}
-
-void QWebEnginePageProto::runJavaScript(const QString & scriptSource)
-{
-  QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
-  if (item)
-    item->runJavaScript(scriptSource);
-}
-
 void QWebEnginePageProto::save(const QString & filePath, QWebEngineDownloadItem::SavePageFormat format) const
 {
   QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
@@ -458,7 +452,7 @@ QWebEngineScriptCollection& QWebEnginePageProto::scripts()
   if (item)
     return item->scripts();
   else
-    throw std::runtime_error("Throw some helpful error");
+    qFatal("No matching function scripts");
 }
 
 QPointF QWebEnginePageProto::scrollPosition() const
@@ -474,7 +468,7 @@ QString QWebEnginePageProto::selectedText() const
   QWebEnginePage *item = qscriptvalue_cast<QWebEnginePage*>(thisObject());
   if (item)
     return item->selectedText();
-  return 0;
+  return QString();
 }
 
 void QWebEnginePageProto::setAudioMuted(bool muted)

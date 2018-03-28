@@ -156,18 +156,7 @@
   #include "qwebviewproto.h"
 #endif
 
-
-#if QT_VERSION <= 0x050600
-  #include "qwebelementcollectionproto.h"
-  #include "qwebelementproto.h"
-  #include "qwebframeproto.h"
-  #include "qwebpageproto.h"
-  #include "qwebsecurityoriginproto.h"
-  #include "qwebsettingsproto.h"
-  #include "qwebviewproto.h"
-#endif
-
-#if QT_VERSION > 0x050900
+#if QT_VERSION >= 0x050900
   #include "qwebenginepageproto.h"
   #include "qwebengineviewproto.h"
 #endif

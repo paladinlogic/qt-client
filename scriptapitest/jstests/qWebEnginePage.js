@@ -25,12 +25,9 @@ var tmp = new QWebEnginePage()
         , 'findText'
         , 'history'
         , 'isAudioMuted'
-        , 'load'
         , 'print'
-        , 'printToPdf'
         , 'profile'
         , 'replaceMisspelledWord'
-        , 'runJavaScript'
         , 'save'
         , 'scripts'
         , 'setAudioMuted'
@@ -55,7 +52,7 @@ var tmp = new QWebEnginePage()
 assertIsConstructor(QWebEnginePage, 'QWebEnginePage');
 
 // Test URL
-tmp.load(qurl);
+tmp.setUrl(qurl);
 assert(tmp.url == url, 'URL should be ' + url + '. URL was ' + tmp.url);
 
 // Test misc ENUMs
