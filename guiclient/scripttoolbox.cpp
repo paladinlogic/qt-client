@@ -11,6 +11,8 @@
 #include "scripttoolbox.h"
 #include "scriptapi_internal.h"
 
+#include <QtGlobal>
+
 #include <QBoxLayout>
 #include <QDateTime>
 #include <QDesktopServices>
@@ -31,8 +33,9 @@
 #include <QTextStream>
 #include <QUrl>
 #include <QWidget>
+
 #if QT_VERSION < 0x050900
-#include <QWebView>
+  #include <QWebView>
 #endif
 
 #include <parameter.h>
@@ -1458,7 +1461,7 @@ void ScriptToolbox::populateXTreeWidget(QWidget * tree, XSqlQuery pSql, bool pUs
     xt->populate(pSql, pUseAltId);
 }
 
-#if QT_VERSION < 0x050900
+#if QT_VERSION <= 0x050900
 /** @brief Load the given QWebView with the given URL. */
 void ScriptToolbox::loadQWebView(QWidget * webView, const QString & url)
 {

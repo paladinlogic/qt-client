@@ -107,7 +107,7 @@ projects::projects(QWidget* parent, const char*, Qt::WindowFlags fl)
   .arg(tr("Complete"))
   .arg(tr("Concept"))
   .arg(tr("In-Process"));
-  
+
   parameterWidget()->append(tr("Owner"), "owner_username", ParameterWidget::User);
   parameterWidget()->append(tr("AssignedTo"), "assigned_username", ParameterWidget::User);
   parameterWidget()->append(tr("Account"), "crmacct_id", ParameterWidget::Crmacct);
@@ -129,7 +129,7 @@ projects::projects(QWidget* parent, const char*, Qt::WindowFlags fl)
   parameterWidget()->append(tr("Completed End Date"), "completedEndDate", ParameterWidget::Date);
 
   setupCharacteristics("PROJ");
-          
+
   _statuses << "None" << "C" << "P" << "O";
 
 }
@@ -259,7 +259,7 @@ void projects::sPopulateMenu(QMenu * pMenu, QTreeWidgetItem*, int)
 
   menuItem = pMenu->addAction(tr("View"), this, SLOT(sView()));
   menuItem->setEnabled(view);
- 
+
   if (foundDeletable)
   {
     menuItem = pMenu->addAction("Delete", this, SLOT(sDelete()));
@@ -306,7 +306,7 @@ void projects::open(XTreeWidgetItem* item, QString mode)
   {
     params.append("prj_id", item->id());
     params.append("mode", mode);
-   
+
     project* newdlg = new project(0, "", false);
     newdlg->set(params);
     newdlg->setAttribute(Qt::WA_DeleteOnClose);
@@ -336,7 +336,7 @@ void projects::open(XTreeWidgetItem* item, QString mode)
     params.append("mode", mode + "Quote");
     params.append("soitem_id", item->id());
 
-    salesOrderItem* newdlg = new salesOrderItem(0, "", false);
+    salesOrderItem* newdlg = new salesOrderItem(0, "", Qt::Dialog);
     newdlg->set(params);
     newdlg->setAttribute(Qt::WA_DeleteOnClose);
     newdlg->show();
@@ -355,7 +355,7 @@ void projects::open(XTreeWidgetItem* item, QString mode)
     params.append("mode", mode);
     params.append("soitem_id", item->id());
 
-    salesOrderItem* newdlg = new salesOrderItem(0, "", false);
+    salesOrderItem* newdlg = new salesOrderItem(0, "", Qt::Dialog);
     newdlg->set(params);
     newdlg->setAttribute(Qt::WA_DeleteOnClose);
     newdlg->show();
@@ -468,17 +468,17 @@ void projects::sCopy()
       continue;
 
     if (DEBUG)
-      qDebug("Project sCopy() Project ID: %d)", item->id());  
+      qDebug("Project sCopy() Project ID: %d)", item->id());
 
     if (item->id() == -1)
     {
       QMessageBox::information(this, tr("Project Copy"), tr("Please select a project to copy first"));
       return;
     }
-  
+
     ParameterList params;
     params.append("prj_id", item->id());
-  
+
     projectCopy newdlg(parentWidget(), "", true);
     newdlg.set(params);
     newdlg.exec();
@@ -557,11 +557,11 @@ bool projects::setParams(ParameterList &params)
 
   bool valid;
   QVariant param;
-  
+
   param = params.value("prjstatus_id", &valid);
   if (valid)
     params.append("prjstatus", _statuses.at(param.toInt()));
-  
+
   if (_showComplete->isChecked())
     params.append("showComplete",true);
 
@@ -632,4 +632,3 @@ void projects::sOpen()
     sView();
 
 }
-

@@ -7,10 +7,10 @@ CONFIG   += qt warn_on
 QT += core printsupport script serialport sql webchannel websockets \
       widgets xml xmlpatterns
 
-equals(QT_MAJOR_VERSION, 5) {
-  lessThan (QT_MINOR_VERSION, 9) {
-    QT += webkit webkitwidgets
-  }
+lessThan (QT_MINOR_VERSION, 6) : isEqual(QT_MAJOR_VERSION, 5) {
+  QT += webkit webkitwidgets
+} else {
+  QT += webengine webenginewidgets
 }
 
 INCLUDEPATH += ../scriptapi \
@@ -54,8 +54,87 @@ UI_DIR      = ui
 FORMS = \
     scriptapitestresults.ui
 
-HEADERS = \ 
+HEADERS = \
     scriptapitestresults.h
 
 SOURCES = scriptapitest.cpp \
     scriptapitestresults.cpp
+
+DISTFILES += \
+    jstests/_setup.js \
+    jstests/char.js \
+    jstests/contactClusterSetup.js \
+    jstests/engineEvaluate.js \
+    jstests/include.js \
+    jstests/jsconsole.js \
+    jstests/metaSqlHighLighter.js \
+    jstests/orReportProto.js \
+    jstests/parameterEditProto.js \
+    jstests/parameterListSetup.js \
+    jstests/qaAbstractSocket.js \
+    jstests/qActionProto.js \
+    jstests/qApplicationProto.js \
+    jstests/qBoxLayout.js \
+    jstests/qBuffer.js \
+    jstests/qButtonGroup.js \
+    jstests/qByteArray.js \
+    jstests/qCoreApplication.js \
+    jstests/qCryptoGraphicHash.js \
+    jstests/qDataWidgetMapper.js \
+    jstests/qdate.js \
+    jstests/qDialogButtonBox.js \
+    jstests/qDialogSetup.js \
+    jstests/qDir.js \
+    jstests/qDnsDomainNameRecord.js \
+    jstests/qDnsHostAddressRecord.js \
+    jstests/qDnsLookup.js \
+    jstests/qDnsMailExchangeRecord.js \
+    jstests/qDnsServiceRecord.js \
+    jstests/qDnsTextRecord.js \
+    jstests/qDockWidget.js \
+    jstests/qDomAttr.js \
+    jstests/qDomCDataSection.js \
+    jstests/qDomCharacterData.js \
+    jstests/qEventLoop.js \
+    jstests/qWebEnginePage.js \
+    jstests/qWebEngineView.js \
+    jstests/_setup.js \
+    jstests/char.js \
+    jstests/contactClusterSetup.js \
+    jstests/engineEvaluate.js \
+    jstests/include.js \
+    jstests/jsconsole.js \
+    jstests/metaSqlHighLighter.js \
+    jstests/orReportProto.js \
+    jstests/parameterEditProto.js \
+    jstests/parameterListSetup.js \
+    jstests/qaAbstractSocket.js \
+    jstests/qActionProto.js \
+    jstests/qApplicationProto.js \
+    jstests/qBoxLayout.js \
+    jstests/qBuffer.js \
+    jstests/qButtonGroup.js \
+    jstests/qByteArray.js \
+    jstests/qCoreApplication.js \
+    jstests/qCryptoGraphicHash.js \
+    jstests/qDataWidgetMapper.js \
+    jstests/qdate.js \
+    jstests/qDialogButtonBox.js \
+    jstests/qDialogSetup.js \
+    jstests/qDir.js \
+    jstests/qDnsDomainNameRecord.js \
+    jstests/qDnsHostAddressRecord.js \
+    jstests/qDnsLookup.js \
+    jstests/qDnsMailExchangeRecord.js \
+    jstests/qDnsServiceRecord.js \
+    jstests/qDnsTextRecord.js \
+    jstests/qDockWidget.js \
+    jstests/qDomAttr.js \
+    jstests/qDomCDataSection.js \
+    jstests/qDomCharacterData.js \
+    jstests/qEventLoop.js \
+    jstests/qWebEnginePage.js \
+    jstests/qWebEngineView.js
+
+SUBDIRS += \
+    scriptapitest.pro

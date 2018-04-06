@@ -10,6 +10,7 @@
 
 #include "setupscriptapi.h"
 
+#include <QtGlobal>
 #include <QDebug>
 
 #include "applock.h"
@@ -135,28 +136,33 @@
 #include "quuidproto.h"
 #include "qvalidatorproto.h"
 #include "qwebchannelproto.h"
-#if QT_VERSION < 0x050900
-#include "qwebelementcollectionproto.h"
-#include "qwebelementproto.h"
-#include "qwebframeproto.h"
-#include "qwebpageproto.h"
-#include "qwebsecurityoriginproto.h"
-#include "qwebsettingsproto.h"
-#endif
 #include "qwebsocketcorsauthenticatorproto.h"
 #include "qwebsocketproto.h"
 #include "qwebsocketprotocolproto.h"
 #include "qwebsocketserverproto.h"
-#if QT_VERSION < 0x050900
-#include "qwebviewproto.h"
-#endif
 #include "qwidgetproto.h"
 #include "webchanneltransport.h"
 #include "xsqlqueryproto.h"
 #include "xvariantsetup.h"
 #include "xwebsync.h"
 
+#if QT_VERSION < 0x050900
+  #include "qwebelementcollectionproto.h"
+  #include "qwebelementproto.h"
+  #include "qwebframeproto.h"
+  #include "qwebpageproto.h"
+  #include "qwebsecurityoriginproto.h"
+  #include "qwebsettingsproto.h"
+  #include "qwebviewproto.h"
+#endif
+
+#if QT_VERSION >= 0x050900
+  #include "qwebenginepageproto.h"
+  #include "qwebengineviewproto.h"
+#endif
+
 static Preferences *prefs = 0;
+
 /*! \defgroup scriptapi The xTuple ERP Scripting API
 
   The xTuple ERP Scripting API defines the interface between extension %scripts
@@ -290,21 +296,10 @@ void setupScriptApi(QScriptEngine *engine, Preferences *pPreferences)
   setupQUuidProto(engine);
   setupQValidatorProto(engine);
   setupQWebChannelProto(engine);
-#if QT_VERSION < 0x050900
-  setupQWebElementCollectionProto(engine);
-  setupQWebElementProto(engine);
-  setupQWebFrameProto(engine);
-  setupQWebPageProto(engine);
-  setupQWebSecurityOriginProto(engine);
-  setupQWebSettingsProto(engine);
-#endif
   setupQWebSocketCorsAuthenticatorProto(engine);
   setupQWebSocketProto(engine);
   setupQWebSocketProtocolProto(engine);
   setupQWebSocketServerProto(engine);
-#if QT_VERSION < 0x050900
-  setupQWebViewProto(engine);
-#endif
   setupQWidgetProto(engine);
   setupQt(engine);
   setupWebChannelTransport(engine);
@@ -312,8 +307,32 @@ void setupScriptApi(QScriptEngine *engine, Preferences *pPreferences)
   setupXVariant(engine);
   setupXWebSync(engine);
   setupchar(engine);
-
   setupFormat(engine);
+
+  #if QT_VERSION < 0x050900
+    setupQWebElementCollectionProto(engine);
+    setupQWebElementProto(engine);
+    setupQWebFrameProto(engine);
+    setupQWebPageProto(engine);
+    setupQWebSecurityOriginProto(engine);
+    setupQWebSettingsProto(engine);
+    setupQWebViewProto(engine);
+  #endif
+
+  #if QT_VERSION <= 0x050600
+    setupQWebElementProto(engine);
+    setupQWebElementCollectionProto(engine);
+    setupQWebFrameProto(engine);
+    setupQWebPageProto(engine);
+    setupQWebSecurityOriginProto(engine);
+    setupQWebSettingsProto(engine);
+    setupQWebViewProto(engine);
+  #endif
+
+  #if QT_VERSION > 0x050900
+    setupQWebEnginePageProto(engine);
+    setupQWebEngineViewProto(engine);
+  #endif
 }
 
 void scriptDeprecated(QString msg)
