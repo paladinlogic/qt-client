@@ -91,7 +91,6 @@ void absoluteCalendarItem::sSave()
   errors << GuiErrorCheck(_startDate->date().toString().isEmpty(), _startDate,
                           tr("You must provide a Start Date"));
 
-  qDebug() << "num of errs: " << errors.length();
   if (GuiErrorCheck::reportErrors(this, tr("Error stuff"), errors))
       return;
 

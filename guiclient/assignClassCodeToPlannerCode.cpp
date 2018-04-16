@@ -44,7 +44,7 @@ void assignClassCodeToPlannerCode::sAssign()
   XSqlQuery assignAssign;
   QList<GuiErrorCheck> errors;
 
-  errors << GuiErrorCheck(!_planCode->isValid(), _planCode, tr("Something about doing it better"));
+  errors << GuiErrorCheck(!_planCode->isValid(), _planCode, tr("Please select a planner code."));
   if (GuiErrorCheck::reportErrors(this, tr("Assign items to planner code"), errors))
     return;
 
